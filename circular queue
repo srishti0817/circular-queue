@@ -1,0 +1,35 @@
+#include <stdio.h>
+#define SIZE 5
+
+typedef struct {
+    int items[SIZE];
+    int front, rear;
+} CircularQueue;
+
+void initCQ(CircularQueue *q) { q->front = q->rear = -1; }
+
+int isFullCQ(CircularQueue *q) {
+    return (q->front == (q->rear + 1) % SIZE);
+}
+
+int isEmptyCQ(CircularQueue *q) {
+    return (q->front == -1);
+}
+
+void enqueueCQ(CircularQueue *q, int value) {
+    if (isFullCQ(q)) return;
+    if (isEmptyCQ(q)) q->front = 0;
+    q->rear = (q->rear + 1) % SIZE;
+    q->items[q->rear] = value;
+}
+
+int dequeueCQ(CircularQueue *q) {
+    if (isEmptyCQ(q)) return -1;
+    int data = q->items[q->front];
+    if (q->front == q->rear) {
+        q->front = q->rear = -1;
+    } else {
+        q->front = (q->front + 1) % SIZE;
+    }
+    return data;
+}
